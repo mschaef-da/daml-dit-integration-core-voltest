@@ -1,0 +1,67 @@
+-- Copyright (c) 2020, Digital Asset (Switzerland) GmbH and/or its affiliates.
+-- SPDX-License-Identifier: Apache-2.0
+
+daml 1.2
+
+module Utility.Sequence where
+
+template Sequence
+  with
+    owner : Party
+    name  : Text
+    count : Int
+  where
+    signatory owner
+
+    key (owner, name) : (Party, Text)
+    maintainer key._1
+
+    controller owner can
+        Sequence_Next : ContractId Sequence
+           do
+             create this with
+               count = count + 1
+
+getNextSequenceValue : Party -> Text -> Update Int
+getNextSequenceValue owner name =
+  do
+    oSeqCid <- lookupByKey @Sequence (owner, name)
+    case oSeqCid of
+      Some seqCid -> do
+        newCid <- exercise seqCid Sequence_Next
+        seq <- fetch @Sequence newCid
+        return seq.count
+      None -> do
+        create Sequence
+          with
+            count = 0
+            ..
+        return 0
+
+
+initial_create = scenario do
+  alice <- getParty "alice"
+
+  submit alice do
+    val <- getNextSequenceValue alice "default"
+
+    assert (val == 0)
+
+fetch_after_create = scenario do
+  alice <- getParty "alice"
+
+  submit alice do
+    getNextSequenceValue alice "default"
+    val <- getNextSequenceValue alice "default"
+
+    assert (val == 1)
+
+two_sequences = scenario do
+  alice <- getParty "alice"
+
+  submit alice do
+    getNextSequenceValue alice "default"
+    val <- getNextSequenceValue alice "second"
+
+    assert (val == 0)
+

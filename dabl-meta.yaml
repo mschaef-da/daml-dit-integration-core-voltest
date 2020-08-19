@@ -1,0 +1,91 @@
+## Copyright (c) 2020, Digital Asset (Switzerland) GmbH and/or its affiliates.
+## SPDX-License-Identifier: Apache-2.0
+
+catalog:
+    name: dabl-integration-core
+    group_id: com.digitalasset
+    version: 0.5.1
+    short_description: Core Integrations
+    description: Timer and Loopback Integrations
+    release_date: 2020-08-13
+    author: Digital Asset (Switzerland) GmbH
+    license: Apache-2.0
+    tags: [ integration ]
+subdeployments:
+    - dabl-integration-core.dar
+integration_types:
+    - id: com.projectdabl.integrations.core.loopback
+      name: Loopback
+      description: >
+          Allows for commands to be sent to the ledger in response
+          to contract create events.
+      entrypoint: core_int.integration_loopback:integration_loopback_main
+      env_class: core_int.integration_loopback:IntegrationLoopbackEnv
+      runtime: python-direct
+      fields:
+          - id: templateFilter
+            name: Event Template Filter
+            description: >
+                Contract template ID for created event filter.
+            field_type: contract_template
+          - id: targetContractMode
+            name: Target Contract Mode
+            description: >
+                Mode used to select the target contract
+                for the choice exercise. The choice can be exercised
+                either on the newly created contract that triggered
+                the integration or on a new contract instance
+                created via the 'create and execute' ledger command
+            field_type: enum:["Create And Execute", "Trigger Contract"]
+          - id: targetTemplate
+            name: Target Template
+            description: >
+                Name of the contract containing the choice
+                to be triggered in response to the contract event. (Not
+                used in 'Trigger Contract' mode.)
+            field_type: contract_template
+          - id: templateChoice
+            name: Target Choice Name
+            description: Name of the choice to be exercised on the target contract.
+            field_type: >
+                contract_choice:{"templateNameField": "targetTemplate"}
+    - id: com.projectdabl.integrations.core.timer
+      name: Timer
+      description: >
+          Schedules a timer that exercices a choice on all active contracts
+          of a given contract template at a periodic interval.
+      entrypoint: core_int.integration_timer:integration_timer_main
+      env_class: core_int.integration_timer:IntegrationTimerEnv
+      runtime: python-direct
+      fields:
+          - id: targetTemplate
+            name: Target Template
+            description: >
+                Name of the contract template containing the choice to be
+                triggered in response to the timer expiring.
+            field_type: contract_template
+          - id: templateChoice
+            name: Target Choice Name
+            description: Name of the choice to be exercised on the target contracts.
+            field_type: >
+                contract_choice:{"templateNameField": "targetTemplate"}
+          - id: interval
+            name: Wait Interval
+            description: The wait interval in seconds.
+            field_type: text
+    - id: com.projectdabl.integrations.core.ledger_event_log
+      name: Ledger Event Log
+      description: >
+          Writes a log message for all ledger events.
+      entrypoint: core_int.integration_ledger_event_log:integration_ledger_event_log_main
+      env_class: core_int.integration_ledger_event_log:IntegrationLedgerEventLogEnv
+      runtime: python-direct
+      fields:
+          - id: historyBound
+            name: Transaction History Bound
+            description: >
+                Bound on the length of the history maintained by the integration
+                for the purpose of the log fetch endpoint. -1 can be used to remove
+                the bound entirely.
+            field_type: text
+            default_value: "1024"
