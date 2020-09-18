@@ -4,10 +4,10 @@
 catalog:
     name: dabl-integration-core
     group_id: com.digitalasset
-    version: 0.5.1
+    version: 0.5.2
     short_description: Core Integrations
     description: Timer and Loopback Integrations
-    release_date: 2020-08-13
+    release_date: 2020-09-19
     author: Digital Asset (Switzerland) GmbH
     license: Apache-2.0
     tags: [ integration ]
