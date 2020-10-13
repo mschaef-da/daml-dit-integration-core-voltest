@@ -21,11 +21,12 @@ ${NAME}.pex: $(find src -not -type d) requirements.txt
 	 pex -o $@ \
 		--disable-cache \
 		-D src/ \
-		-m daml_dit_api.main \
+		-m daml_dit_if.main \
 		-r requirements.txt \
 		--inherit-path \
 		--platform current \
-		--platform manylinux2014_x86_64-cp-38-cp38
+		--platform manylinux2014_x86_64-cp-38-cp38 \
+        --python-shebang='/usr/bin/env python3'
 
 dist: $(find pkg) dabl-meta.yaml
 	mkdir -p $@
