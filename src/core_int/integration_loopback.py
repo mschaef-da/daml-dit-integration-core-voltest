@@ -33,10 +33,7 @@ def integration_loopback_main(
         LOG.info('loopback - created: %r (%r)', event, env.targetContractMode)
 
         if env.targetContractMode == 'Trigger Contract':
-            return [exercise(
-                cid=event.cid,
-                choice_name=env.templateChoice,
-                arguments={})]
+            return [exercise(event.cid, env.templateChoice, {})]
         else:
             return [create_and_exercise(
                 env.targetTemplate,
