@@ -4,7 +4,7 @@
 catalog:
     name: dabl-integration-core
     group_id: com.digitalasset
-    version: 0.6.0
+    version: 0.6.1
     short_description: The Core Pack
     description: Timer and Loopback Integrations
     author: Digital Asset (Switzerland) GmbH
@@ -71,7 +71,7 @@ integration_types:
           - id: interval
             name: Wait Interval
             description: The wait interval in seconds.
-            field_type: text
+            field_type: integer
     - id: com.projectdabl.integrations.core.ledger_event_log
       name: Ledger Event Log
       description: >
@@ -86,5 +86,5 @@ integration_types:
                 Bound on the length of the history maintained by the integration
                 for the purpose of the log fetch endpoint. -1 can be used to remove
                 the bound entirely.
-            field_type: text
+            field_type: integer
             default_value: "1024"
