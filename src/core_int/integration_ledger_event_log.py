@@ -9,11 +9,10 @@ from datetime import datetime
 
 from dazl import exercise
 
-from daml_dit_api import \
+from daml_dit_if.api import \
     IntegrationEnvironment, IntegrationEvents, IntegrationWebhookResponse
 
 from daml_dit_if.main.web import json_response
-
 
 LOG = logging.getLogger('integration')
 

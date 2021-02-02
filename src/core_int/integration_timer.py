@@ -6,10 +6,9 @@ import logging
 
 from dataclasses import dataclass
 
-
 from dazl import exercise
 
-from daml_dit_api import \
+from daml_dit_if.api import \
     IntegrationEnvironment, IntegrationEvents
 
 

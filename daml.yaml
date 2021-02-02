@@ -1,12 +1,10 @@
 ## Copyright (c) 2020, Digital Asset (Switzerland) GmbH and/or its affiliates.
 ## SPDX-License-Identifier: Apache-2.0
 
-sdk-version: 1.4.0
+sdk-version: 1.9.0
 name: dabl-integration-core
-version: 1.0.0
+version: 1.1.0
 source: daml/Modules.daml
-exposed-modules:
-- Utility.Sequence
 dependencies:
 - daml-prim
 - daml-stdlib

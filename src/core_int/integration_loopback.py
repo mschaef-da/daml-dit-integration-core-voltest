@@ -8,7 +8,7 @@ from dataclasses import dataclass
 from dazl import exercise, create_and_exercise
 from dazl.model.core import ContractData
 
-from daml_dit_api import \
+from daml_dit_if.api import \
     IntegrationEnvironment, IntegrationEvents
 
 
