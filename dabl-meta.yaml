@@ -35,7 +35,7 @@ integration_types:
                 either on the newly created contract that triggered
                 the integration or on a new contract instance
                 created via the 'create and execute' ledger command
-            field_type: enum:["Create And Execute", "Trigger Contract"]
+            field_type: enum:["Create and Exercise", "Exercise by Key", "Trigger Contract"]
           - id: targetTemplate
             name: Target Template
             description: >
@@ -48,6 +48,11 @@ integration_types:
             description: Name of the choice to be exercised on the target contract.
             field_type: >
                 contract_choice:{"templateNameField": "targetTemplate"}
+          - id: keyField
+            name: Key Field
+            description: Key field for value from triggering contract to be used as second key value.
+            required: False
+            field_type: text
     - id: com.projectdabl.integrations.core.timer
       name: Timer
       description: >

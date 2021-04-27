@@ -21,6 +21,7 @@ class IntegrationLoopbackEnv(IntegrationEnvironment):
     targetContractMode: str
     targetTemplate: str
     templateChoice: str
+    keyField: str
 
 
 def integration_loopback_main(
@@ -34,7 +35,25 @@ def integration_loopback_main(
 
         if env.targetContractMode == 'Trigger Contract':
             return [exercise(event.cid, env.templateChoice, {})]
-        else:
+
+        elif env.targetContractMode == 'Create and Exercise':
+            return [create_and_exercise(
+                env.targetTemplate,
+                {'integrationParty': env.party},
+                env.templateChoice,
+                {'cid': event.cid})]
+
+        elif env.targetContractMode == 'Exercise by Key':
+
+            cdata = event.cdata
+
+            try:
+                key_value = cdata[env.keyField]
+            except:
+                raise Exception(
+                    f'Missing key field {event.keyField} in triggering'
+                    f' contract {cdata}.')
+
             return [create_and_exercise(
                 env.targetTemplate,
                 {'integrationParty': env.party},
