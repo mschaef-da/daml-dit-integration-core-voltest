@@ -1,18 +1,18 @@
 # Copyright (c) 2020, Digital Asset (Switzerland) GmbH and/or its affiliates.
 # SPDX-License-Identifier: Apache-2.0
 
-import logging
-
 from dataclasses import dataclass
 
 from dazl import exercise, create_and_exercise
 from dazl.model.core import ContractData
 
 from daml_dit_if.api import \
-    IntegrationEnvironment, IntegrationEvents
+    IntegrationEnvironment, \
+    IntegrationEvents, \
+    getIntegrationLogger
 
 
-LOG = logging.getLogger('integration')
+LOG = getIntegrationLogger()
 
 
 @dataclass
