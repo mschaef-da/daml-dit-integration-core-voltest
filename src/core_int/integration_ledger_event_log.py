@@ -2,7 +2,6 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import asyncio
-import logging
 
 from dataclasses import dataclass
 from datetime import datetime
@@ -10,11 +9,14 @@ from datetime import datetime
 from dazl import exercise
 
 from daml_dit_if.api import \
-    IntegrationEnvironment, IntegrationEvents, IntegrationWebhookResponse
+    IntegrationEnvironment, \
+    IntegrationEvents, \
+    IntegrationWebhookResponse, \
+    getIntegrationLogger
 
 from daml_dit_if.main.web import json_response
 
-LOG = logging.getLogger('integration')
+LOG = getIntegrationLogger()
 
 
 @dataclass
@@ -23,8 +25,13 @@ class IntegrationLedgerEventLogEnv(IntegrationEnvironment):
 
 
 def integration_ledger_event_log_main(
-        env: 'IntegrationEnvironment',
+        env: 'IntegrationLedgerEventLogEnv',
         events: 'IntegrationEvents'):
+
+    historyBound = env.historyBound
+
+    if env.historyBound < -1:
+        raise Exception(f'Invalid history bound: {historyBound}')
 
     history = []
 
@@ -32,8 +39,8 @@ def integration_ledger_event_log_main(
         nonlocal history
         history.append(event_data)
 
-        if env.historyBound > 0:
-            history = history[-env.historyBound:]
+        if historyBound > 0:
+            history = history[-historyBound:]
 
     def _event_description(type):
         return {

@@ -4,7 +4,7 @@
 catalog:
     name: dabl-integration-core
     group_id: com.digitalasset
-    version: 0.9.2
+    version: 0.9.8
     short_description: The Core Pack
     description: Timer and Loopback Integrations
     author: Digital Asset (Switzerland) GmbH
@@ -85,6 +85,29 @@ integration_types:
             description: >
                 Bound on the length of the history maintained by the integration
                 for the purpose of the log fetch endpoint. -1 can be used to remove
-                the bound entirely.
+                the bound entirely. Negative values below -1 are reserved.
             field_type: integer
             default_value: "1024"
+    - id: com.projectdabl.integrations.core.table
+      name: Table
+      description: >
+          Maintains an internal set of all contracts corresponding to a given
+          contract template, and allows that set to be queried in tabular
+          form via a web endpoint.
+      entrypoint: core_int.integration_table:integration_table_main
+      env_class: core_int.integration_table:IntegrationTableEnv
+      runtime: python-direct
+      fields:
+          - id: targetTemplate
+            name: Target Template
+            description: >
+                Name of the contract template containing source data for the
+                tabular data to be served by the integration.
+            field_type: contract_template
+          - id: csvDialect
+            name: CSV Dialect
+            description: >
+                Dialect of CSV to generate. These correspond to dialects of CSV
+                supported by Python 3's CSV library.
+            field_type: enum:["Excel", "Excel w/Tabs", "Unix"]
+            default_value: "Excel"

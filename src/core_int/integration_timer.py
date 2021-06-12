@@ -2,17 +2,18 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import asyncio
-import logging
 
 from dataclasses import dataclass
 
 from dazl import exercise
 
 from daml_dit_if.api import \
-    IntegrationEnvironment, IntegrationEvents
+    IntegrationEnvironment, \
+    IntegrationEvents, \
+    getIntegrationLogger
 
 
-LOG = logging.getLogger('integration')
+LOG = getIntegrationLogger()
 
 
 @dataclass
@@ -23,7 +24,7 @@ class IntegrationTimerEnv(IntegrationEnvironment):
 
 
 def integration_timer_main(
-        env: 'IntegrationEnvironment',
+        env: 'IntegrationTimerEnv',
         events: 'IntegrationEvents'):
 
     active_cids = set()
@@ -38,7 +39,7 @@ def integration_timer_main(
         LOG.debug('Archived CID: %r', event.cid)
         active_cids.discard(event.cid)
 
-    @events.time.periodic_interval(env.interval)
+    @events.time.periodic_interval(env.interval, label='Periodic Timer')
     async def interval_timer_elapsed():
         LOG.debug('Timer elapsed: %r', active_cids)
         return [exercise(cid, env.templateChoice, {})
