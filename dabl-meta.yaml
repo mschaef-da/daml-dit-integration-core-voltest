@@ -20,7 +20,6 @@ integration_types:
           to contract create events.
       entrypoint: core_int.integration_loopback:integration_loopback_main
       env_class: core_int.integration_loopback:IntegrationLoopbackEnv
-      runtime: python-direct
       fields:
           - id: templateFilter
             name: Event Template Filter
@@ -55,7 +54,6 @@ integration_types:
           of a given contract template at a periodic interval.
       entrypoint: core_int.integration_timer:integration_timer_main
       env_class: core_int.integration_timer:IntegrationTimerEnv
-      runtime: python-direct
       fields:
           - id: targetTemplate
             name: Target Template
@@ -78,7 +76,6 @@ integration_types:
           Writes a log message for all ledger events.
       entrypoint: core_int.integration_ledger_event_log:integration_ledger_event_log_main
       env_class: core_int.integration_ledger_event_log:IntegrationLedgerEventLogEnv
-      runtime: python-direct
       fields:
           - id: historyBound
             name: Transaction History Bound
@@ -96,7 +93,6 @@ integration_types:
           form via a web endpoint.
       entrypoint: core_int.integration_table:integration_table_main
       env_class: core_int.integration_table:IntegrationTableEnv
-      runtime: python-direct
       fields:
           - id: targetTemplate
             name: Target Template

@@ -1,7 +1,7 @@
-DIT_NAME=$(shell ddit targetname)
+DIT_NAME := $(shell ddit targetname)
 
-PKG_FILES=$(shell find pkg -type f)
-SRC_FILES=$(shell find src -type f)
+PKG_FILES := $(shell find pkg -type f)
+SRC_FILES := $(shell find src -type f)
 
 .PHONY: clean
 
