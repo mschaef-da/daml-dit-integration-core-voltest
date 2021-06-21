@@ -1,19 +1,19 @@
-## Copyright (c) 2020, Digital Asset (Switzerland) GmbH and/or its affiliates.
+## Copyright (c) 2021, Digital Asset (Switzerland) GmbH and/or its affiliates.
 ## SPDX-License-Identifier: Apache-2.0
 
 catalog:
     name: dabl-integration-core
     group_id: com.digitalasset
-    version: 0.9.8
+    version: 0.9.81 # NOTE EXPERIMENTAL TAG UNTIL python-direct-hub-if SUPPORT IN HUB
     short_description: The Core Pack
     description: Timer and Loopback Integrations
     author: Digital Asset (Switzerland) GmbH
     license: Apache-2.0
-    tags: [ integration ]
+    tags: [ integration experimental ]
     icon_file: integration-icon.svg
     source_url: https://github.com/digital-asset/daml-dit-integration-core
 integration_types:
-    - id: com.projectdabl.integrations.core.loopback
+    - id: loopback
       name: Loopback
       description: >
           Allows for commands to be sent to the ledger in response
@@ -47,7 +47,7 @@ integration_types:
             description: Name of the choice to be exercised on the target contract.
             field_type: >
                 contract_choice:{"templateNameField": "targetTemplate"}
-    - id: com.projectdabl.integrations.core.timer
+    - id: timer
       name: Timer
       description: >
           Schedules a timer that exercices a choice on all active contracts
@@ -70,7 +70,7 @@ integration_types:
             name: Wait Interval
             description: The wait interval in seconds.
             field_type: integer
-    - id: com.projectdabl.integrations.core.ledger_event_log
+    - id: ledger_event_log
       name: Ledger Event Log
       description: >
           Writes a log message for all ledger events.
@@ -85,7 +85,7 @@ integration_types:
                 the bound entirely. Negative values below -1 are reserved.
             field_type: integer
             default_value: "1024"
-    - id: com.projectdabl.integrations.core.table
+    - id: table
       name: Table
       description: >
           Maintains an internal set of all contracts corresponding to a given
