@@ -16,6 +16,7 @@ from dazl import exercise
 from datetime import date, datetime, timezone
 
 from daml_dit_if.api import \
+    AuthorizationLevel, \
     IntegrationEnvironment, \
     IntegrationEvents, \
     IntegrationWebhookResponse, \
@@ -117,17 +118,13 @@ def integration_table_main(
 
         LOG.debug('fieldnames: %r', fieldnames)
 
-        row_maps = [{fieldkeyname(key) : contract_value_column(getin(cdata, key))
-                     for key
-                     in contract_columns}
-                    for cid, cdata
-                    in active_contracts.items()]
+        return [{fieldkeyname(key) : contract_value_column(getin(cdata, key))
+                 for key
+                 in contract_columns}
+                for cid, cdata
+                in active_contracts.items()]
 
-        LOG.debug('row_maps: %r', row_maps)
-
-        return row_maps
-
-    @events.webhook.get(label='CSV Table')
+    @events.webhook.get(label='CSV Table', auth=AuthorizationLevel.INTEGRATION_PARTY)
     async def on_get_table_csv(request):
         row_data = get_formatted_table_data()
 
@@ -146,7 +143,7 @@ def integration_table_main(
         return IntegrationWebhookResponse(
             response=blob_success_response(report_text, "text/csv"))
 
-    @events.webhook.get(url_suffix='/json', label='JSON Table')
+    @events.webhook.get(url_suffix='/json', label='JSON Table', auth=AuthorizationLevel.INTEGRATION_PARTY)
     async def on_get_table_json(request):
         row_data = get_formatted_table_data()
 
