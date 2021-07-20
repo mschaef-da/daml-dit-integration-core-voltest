@@ -1,0 +1,15 @@
+## Copyright (c) 2021, Digital Asset (Switzerland) GmbH and/or its affiliates.
+## SPDX-License-Identifier: Apache-2.0
+
+catalog:
+    name: dabl-volume-test
+    group_id: com.digitalasset
+    version: 0.0.XYZZY
+    short_description: Volume Test Project
+    description: Volume Test Project
+    author: Digital Asset (Switzerland) GmbH
+    license: Apache-2.0
+    tags: [ integration ]
+    icon_file: integration-icon.svg
+    source_url: https://github.com/mschaef-da/daml-dit-integration-core-voltest
+integration_types: []
